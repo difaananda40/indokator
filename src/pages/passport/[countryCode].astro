@@ -32,7 +32,9 @@ if (!passport) {
 		<div
 			class="border-4 border-black p-8 bg-white shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] mt-8"
 		>
-			<h1 class="text-6xl font-black italic mb-4">{passport.name}</h1>
+			<h1 class="text-6xl font-black italic mb-4 wrap-break-word">
+				{passport.name}
+			</h1>
 			<p class="text-2xl font-bold italic opacity-70 mb-8">
 				Ranking: #{passport.rank} | Total Skor: {passport.totalScore}
 			</p>
@@ -81,7 +83,9 @@ if (!passport) {
 						class="destination-card border-2 border-black p-4 bg-[#F9F7F2]"
 						data-name={dest.name.toLowerCase()}
 					>
-						<p class="font-black text-lg leading-tight">{dest.name}</p>
+						<p class="font-black text-lg leading-tight wrap-break-word">
+							{dest.name}
+						</p>
 						<p class="text-sm font-bold mt-2 uppercase text-[#FF3E3E]">
 							{dest.status}
 						</p>
