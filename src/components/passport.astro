@@ -1,0 +1,109 @@
+---
+const passportInfo = {
+	rank: "#65",
+	visaFree: 40,
+	voaEta: 38,
+};
+
+import { getPassport } from "@/lib/passport";
+
+const passport = getPassport("ID");
+
+if (!passport) throw new Error("Passport ID not found");
+---
+
+<style>
+	@keyframes rotate-swing {
+		0%,
+		100% {
+			transform: rotate(-2deg);
+		}
+		50% {
+			transform: rotate(2deg);
+		}
+	}
+	.animate-swing {
+		animation: rotate-swing 1.5s ease-in-out infinite;
+	}
+</style>
+
+<section>
+	<div
+		class="flex flex-col md:flex-row justify-between md:items-end mb-8 gap-4"
+	>
+		<h2 class="text-4xl font-black italic">PASSPORT RANK</h2>
+		<a
+			href="/passport"
+			class="font-black underline italic text-xl hover:text-[#FF3E3E] transition-colors"
+		>
+			VIEW ALL PASSPORT &rarr;
+		</a>
+	</div>
+	<div class="flex flex-col md:flex-row gap-8 items-start">
+		<div
+			class="mx-auto w-60 aspect-7/10 border-4 border-black bg-[#8B0000] p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] animate-swing flex flex-col justify-between shrink-0"
+		>
+			<div
+				class="border border-white/50 p-0.5 text-center text-white font-bold text-[8px] tracking-widest uppercase"
+			>
+				Paspor
+			</div>
+
+			<div class="flex flex-col items-center">
+				<div
+					class="w-12 h-12 border-2 border-white flex items-center justify-center rotate-45 mb-2"
+				>
+					<span class="text-white font-black text-xs -rotate-45">RI</span>
+				</div>
+				<div class="text-white font-black text-[10px] text-center leading-none">
+					REPUBLIK<br />INDONESIA
+				</div>
+			</div>
+
+			<div
+				class="text-white text-[7px] font-bold text-center uppercase tracking-widest"
+			>
+				PASSPORT
+			</div>
+		</div>
+
+		<!-- Info Stats -->
+		<div
+			class="flex-1 w-full border-[5px] border-black p-8 bg-[#00A8FF] shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]"
+		>
+			<h3 class="text-4xl font-black italic mb-6 text-white tracking-tighter">
+				PASSPORT RANK <span class="text-[#FFFDD0]">#{passport.rank}</span>
+			</h3>
+			<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+				<div class="bg-white border-4 border-black p-4">
+					<span class="block font-bold text-[10px] uppercase tracking-tight"
+						>Visa Free</span
+					>
+					<span class="text-4xl font-black italic">{passport.vfScore}</span>
+				</div>
+				<div class="bg-white border-4 border-black p-4">
+					<span class="block font-bold text-[10px] uppercase tracking-tight"
+						>Visa on Arrival / ETA</span
+					>
+					<span class="text-4xl font-black italic"
+						>{passport.voaScore + passport.etaScore}</span
+					>
+				</div>
+				<div class="bg-white border-4 border-black p-4">
+					<span class="block font-bold text-[10px] uppercase tracking-tight"
+						>Visa Required</span
+					>
+					<span class="text-4xl font-black italic"
+						>{passport.requiredScore}</span
+					>
+				</div>
+			</div>
+			<a
+				href="/passport/id"
+				class="mt-6 block text-center w-full bg-black text-white py-3 font-black uppercase text-sm tracking-widest border-2 border-white hover:bg-white hover:text-black hover:border-black transition-all"
+			>
+				VIEW_DETAILS &rarr;
+			</a>
+		</div>
+	</div>
+</section>

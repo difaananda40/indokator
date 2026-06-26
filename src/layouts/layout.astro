@@ -1,0 +1,42 @@
+---
+import "@/styles/global.css";
+import Header from "@/components/common/header.astro";
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<html lang="id">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title} | Indonesia Indikator</title>
+		<style>
+			@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700;900&display=swap");
+		</style>
+		<ClientRouter />
+	</head>
+	<body class="bg-[#F0EEE6] text-[#050505] font-['Space_Grotesk']">
+		<Header />
+
+		<main
+			class="w-full max-w-[1600px] mx-auto py-12 px-6 md:p-12 overflow-x-hidden"
+		>
+			<slot />
+		</main>
+
+		<footer
+			class="bg-black text-white p-10 mt-20 text-center font-black italic text-2xl uppercase"
+		>
+			Indonesia Indikator
+			<span
+				class="block mt-2 sm:inline sm:mt-0 ml-2 text-sm font-semibold lowercase leading-none"
+				>© 2026 tinystudioo.</span
+			>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,67 @@
+---
+import Layout from "@/layouts/layout.astro";
+import { getFuelPrices, getFuelColor } from "@/lib/fuel";
+
+const fuelPrices = (await getFuelPrices()).sort((a, b) =>
+	a.province.localeCompare(b.province),
+);
+---
+
+<Layout title="Harga Bahan Bakar">
+	<div class="space-y-12">
+		<h1 class="text-5xl font-black italic mb-12">HARGA BAHAN BAKAR</h1>
+
+		<div class="relative">
+			<input
+				type="text"
+				id="regionSearch"
+				placeholder="CARI PROVINSI..."
+				class="w-full border-4 border-black p-4 font-black text-xl placeholder:opacity-50 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:bg-[#FFFDD0] transition-colors"
+			/>
+		</div>
+
+		<div class="space-y-12" id="regionsGrid">
+			{
+				fuelPrices.map((region) => (
+					<div
+						class="region-card border-4 border-black p-6 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
+						data-name={region.province.toLowerCase()}
+					>
+						<h2 class="text-2xl font-black italic mb-6 border-b-4 border-black pb-4 uppercase tracking-tighter">
+							{region.province}
+						</h2>
+						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+							{region.list_price.map((fuel) => (
+								<div
+									class="border-2 border-black p-4"
+									style={`background-color: ${getFuelColor(fuel.product)}`}
+								>
+									<p class="font-black text-lg">{fuel.product}</p>
+									<p class="text-sm font-bold opacity-70 mb-2">{fuel.type}</p>
+									<p class="font-black text-2xl">{fuel.price}</p>
+								</div>
+							))}
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</Layout>
+
+<script>
+	const searchInput = document.getElementById(
+		"regionSearch",
+	) as HTMLInputElement;
+	const cards = document.querySelectorAll(".region-card");
+
+	searchInput?.addEventListener("input", (e) => {
+		const value = (e.target as HTMLInputElement).value.toLowerCase();
+		cards.forEach((card) => {
+			const name = (card as HTMLElement).dataset.name || "";
+			(card as HTMLElement).style.display = name.includes(value)
+				? "block"
+				: "none";
+		});
+	});
+</script>

@@ -1,0 +1,51 @@
+---
+import { getExchangeRates, getGoldPrice } from "@/lib/market";
+
+const [exchangeRates, goldPrices] = await Promise.all([
+	getExchangeRates(),
+	getGoldPrice(),
+]);
+
+const markets = [
+	{
+		label: "1 USD =",
+		value: exchangeRates.usd,
+		color: "bg-[#002147] text-white",
+	},
+	{
+		label: "1 RINGGIT =",
+		value: exchangeRates.myr,
+		color: "bg-[#0032A0] text-white",
+	},
+	{
+		label: "1 GRAM EMAS =",
+		value: `
+			<div class="text-2xl font-black italic">
+				${goldPrices.sell} <span class="text-sm font-normal">(jual)</span>
+				<br/>
+				${goldPrices.buy} <span class="text-sm font-normal">(beli)</span>
+			</div>
+		`,
+		color: "bg-[#FFE600]",
+	},
+];
+---
+
+<section>
+	<h2 class="text-4xl font-black italic mb-8">MARKET INDICATOR</h2>
+
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+		{
+			markets.map((item, index) => (
+				<div
+					class={`${item.color} border-[5px] border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${index === 2 ? "md:col-span-2 lg:col-span-1" : ""}`}
+				>
+					<p class="font-bold text-sm mb-4">{item.label}</p>
+					<h3 class="text-3xl font-black italic">
+						<Fragment set:html={item.value} />
+					</h3>
+				</div>
+			))
+		}
+	</div>
+</section>

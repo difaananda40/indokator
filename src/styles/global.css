@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.multi-line-ellipsis {
+	display: -webkit-box; /* Required for line-clamping behavior */
+	-webkit-box-orient: vertical; /* Sets the direction of the box */
+	-webkit-line-clamp: 2; /* Truncates the text specifically after 2 lines */
+	line-clamp: 2; /* Truncates the text specifically after 2 lines */
+	overflow: hidden; /* Hides the rest of the text */
+}

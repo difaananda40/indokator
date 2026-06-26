@@ -1,0 +1,26 @@
+---
+import { getTrendingTopics } from "@/lib/trends";
+
+const trends = await getTrendingTopics();
+---
+
+<section>
+	<h2 class="text-4xl font-black italic mb-8">LIVE TRENDS</h2>
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+		{
+			trends.map((trend) => (
+				<div class="border-4 border-black bg-white p-6 hover:-translate-y-1.25 transition-transform">
+					<p class="text-xs font-black uppercase text-gray-500">
+						{trend.category}
+					</p>
+					<h4 class="text-xl font-black my-2 multi-line-ellipsis leading-tight">
+						{trend.topic}
+					</h4>
+					<div class="bg-black text-white px-2 py-1 inline-block text-xs font-bold">
+						{trend.category}
+					</div>
+				</div>
+			))
+		}
+	</div>
+</section>

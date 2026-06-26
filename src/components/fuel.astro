@@ -1,0 +1,44 @@
+---
+import { getGlobalFuelPrices, FUEL_COLORS } from "@/lib/fuel";
+
+const { list_price: fuelPrices } = await getGlobalFuelPrices();
+---
+
+<section>
+	<div
+		class="flex flex-col md:flex-row justify-between md:items-end mb-8 gap-4"
+	>
+		<h2 class="text-4xl font-black italic">FUEL INDICATOR</h2>
+		<a
+			href="/fuel"
+			class="font-black underline italic text-xl hover:text-[#FF3E3E] transition-colors"
+		>
+			VIEW ALL REGIONS &rarr;
+		</a>
+	</div>
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+		{
+			fuelPrices.map((fuel) => (
+				<div
+					class="border-4 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transition-all"
+					style={`background-color: ${FUEL_COLORS[fuel.product]};`}
+				>
+					<div class="flex justify-between items-start mb-4">
+						<p
+							class="text-[10px] font-black uppercase text-black px-2 py-0.5 border-2 border-black"
+							style={`background-color: ${FUEL_COLORS[fuel.product]};`}
+						>
+							{fuel.type}
+						</p>
+						<span class="text-[10px] font-bold opacity-50">#PERTAMINA</span>
+					</div>
+
+					<h4 class="text-2xl font-black mb-2 tracking-tighter">
+						{fuel.product}
+					</h4>
+					<div class="text-3xl font-black italic mb-6">{fuel.price}</div>
+				</div>
+			))
+		}
+	</div>
+</section>

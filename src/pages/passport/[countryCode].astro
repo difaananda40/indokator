@@ -1,0 +1,113 @@
+---
+import Layout from "@/layouts/layout.astro";
+import { getPassport, getGroupedRankedPassports } from "@/lib/passport";
+
+export async function getStaticPaths() {
+	const allPassports = getGroupedRankedPassports().flatMap(
+		(group) => group.countries,
+	);
+	return allPassports.map((passport) => ({
+		params: { countryCode: passport.code.toLowerCase() },
+	}));
+}
+
+const { countryCode } = Astro.params;
+const passport = countryCode ? getPassport(countryCode.toUpperCase()) : null;
+
+if (!passport) {
+	return Astro.redirect("/passport");
+}
+---
+
+<Layout title={`Paspor ${passport?.name || "Detail"}`}>
+	<div class="space-y-12">
+		<a
+			href="/passport"
+			class="font-bold underline italic hover:text-[#FF3E3E] block mb-8"
+			onclick="sessionStorage.setItem('scrollTarget', 'country-{passport.code}')"
+		>
+			&larr; KEMBALI KE RANKING
+		</a>
+
+		<div
+			class="border-4 border-black p-8 bg-white shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] mt-8"
+		>
+			<h1 class="text-6xl font-black italic mb-4">{passport.name}</h1>
+			<p class="text-2xl font-bold italic opacity-70 mb-8">
+				Ranking: #{passport.rank} | Total Skor: {passport.totalScore}
+			</p>
+			<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+				<div class="bg-[#F0EEE6] border-2 border-black p-4">
+					<span class="block font-bold text-[10px] uppercase tracking-tight"
+						>Visa Free</span
+					>
+					<span class="text-4xl font-black italic">{passport.vfScore}</span>
+				</div>
+				<div class="bg-[#F0EEE6] border-2 border-black p-4">
+					<span class="block font-bold text-[10px] uppercase tracking-tight"
+						>Visa on Arrival / ETA</span
+					>
+					<span class="text-4xl font-black italic"
+						>{passport.voaScore + passport.etaScore}</span
+					>
+				</div>
+				<div class="bg-[#F0EEE6] border-2 border-black p-4">
+					<span class="block font-bold text-[10px] uppercase tracking-tight"
+						>Visa Required</span
+					>
+					<span class="text-4xl font-black italic"
+						>{passport.requiredScore}</span
+					>
+				</div>
+			</div>
+		</div>
+
+		<div class="relative">
+			<input
+				type="text"
+				id="countrySearch"
+				placeholder="CARI NEGARA TUJUAN..."
+				class="w-full border-4 border-black p-4 font-black text-xl placeholder:opacity-50 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:bg-[#FFFDD0] transition-colors"
+			/>
+		</div>
+
+		<div
+			id="destinationsGrid"
+			class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+		>
+			{
+				passport.destinations.map((dest) => (
+					<div
+						class="destination-card border-2 border-black p-4 bg-[#F9F7F2]"
+						data-name={dest.name.toLowerCase()}
+					>
+						<p class="font-black text-lg leading-tight">{dest.name}</p>
+						<p class="text-sm font-bold mt-2 uppercase text-[#FF3E3E]">
+							{dest.status}
+						</p>
+						{dest.days && (
+							<p class="text-xs opacity-60">Durasi: {dest.days} hari</p>
+						)}
+					</div>
+				))
+			}
+		</div>
+	</div>
+</Layout>
+
+<script>
+	const searchInput = document.getElementById(
+		"countrySearch",
+	) as HTMLInputElement;
+	const cards = document.querySelectorAll(".destination-card");
+
+	searchInput?.addEventListener("input", (e) => {
+		const value = (e.target as HTMLInputElement).value.toLowerCase();
+		cards.forEach((card) => {
+			const name = (card as HTMLElement).dataset.name || "";
+			(card as HTMLElement).style.display = name.includes(value)
+				? "block"
+				: "none";
+		});
+	});
+</script>
