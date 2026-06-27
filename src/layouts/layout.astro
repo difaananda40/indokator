@@ -1,20 +1,20 @@
 ---
 import "@/styles/global.css";
+import SEO from "@/components/seo.astro";
 import Header from "@/components/common/header.astro";
 import { ClientRouter } from "astro:transitions";
 
 interface Props {
-	title: string;
+	title?: string;
+	description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
 ---
 
 <html lang="id">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>{title} | Indonesia Indikator</title>
+		<SEO title={title} description={description} />
 		<style>
 			@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700;900&display=swap");
 		</style>

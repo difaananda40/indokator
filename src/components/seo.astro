@@ -1,0 +1,58 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+	canonical?: string;
+	ogImage?: string;
+	ogType?: "website" | "article";
+}
+
+const {
+	title = "Indonesia Indikator",
+	description = "Analisis data dan indikator strategis di Indonesia.",
+	canonical = Astro.url.href,
+	ogImage = "/og-image.png",
+	ogType = "website",
+} = Astro.props;
+
+const siteName = "Indonesia Indikator";
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title} | {siteName}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<!-- Favicons -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="icon" type="image/png" href="/logo.png" />
+<link rel="apple-touch-icon" href="/logo.png" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={Astro.url.href} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta
+	property="og:image"
+	content={Astro.site ? new URL("/logo.png", Astro.site) : "/logo.png"}
+/>
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url.href} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta
+	property="twitter:image"
+	content={Astro.site ? new URL("/logo.png", Astro.site) : "/logo.png"}
+/>
+
+<!-- Geo Metadata -->
+<meta name="geo.region" content="ID" />
+<meta name="geo.placename" content="Indonesia" />
+<!-- If specific coords:
+<meta name="geo.position" content="-0.789275;113.921327" />
+<meta name="ICBM" content="-0.789275, 113.921327" />
+-->
